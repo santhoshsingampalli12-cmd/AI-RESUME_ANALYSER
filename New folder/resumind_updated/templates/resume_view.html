@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0b0f19; color: white; font-family: 'Poppins', sans-serif; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; border: 1px solid #4ecca3; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .score { font-size: 3rem; color: #4ecca3; font-weight: bold; margin: 10px 0; }
+        .tag { display: inline-block; background: rgba(78, 204, 163, 0.2); color: #4ecca3; border: 1px solid #4ecca3; padding: 4px 10px; border-radius: 12px; margin: 3px; font-weight: bold; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color: #4ecca3; margin-top:0;">📄 Resume Mobile View</h2>
+        <p style="color:#aaa; font-size:0.85rem;">File: {{ data.filename }}</p>
+        <div class="score">{{ data.score }}%</div>
+        <p>ATS Level: <strong>{{ data.compatibility }}</strong></p>
+        <p>Word Count: <strong>{{ data.word_count }} words</strong></p>
+        <h4 style="color: #4ecca3; margin-top: 20px;">Detected Keywords:</h4>
+        <div>
+        {% for skill in data.skills %}
+            <span class="tag">{{ skill }}</span>
+        {% else %}
+            <span style="color:#aaa; font-size:0.8rem;">No keywords matched</span>
+        {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

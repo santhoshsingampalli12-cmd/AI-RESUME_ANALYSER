@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Approach | RESUMind AI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* Dashboard image background */
+        body {
+            background:
+                linear-gradient(rgba(0, 12, 32, 0.78), rgba(0, 12, 32, 0.86)),
+                url("{{ url_for('static', filename='company-approach-background.png') }}")
+                center center / cover fixed no-repeat;
+            background-color: #001127;
+        }
+
+        .company-approach-wrapper {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .company-upload-box {
+            width: 100%;
+            max-width: 435px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 14px;
+            background: rgba(8, 15, 25, 0.86);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.35);
+            text-align: center;
+        }
+
+        .company-upload-box h1 {
+            margin: 0 0 22px;
+            font-size: 24px;
+        }
+
+        .company-upload-box h1 span:first-child {
+            color: #ffffff;
+        }
+
+        .company-upload-box h1 span:last-child {
+            color: #4ecca3;
+        }
+
+        .company-file {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin-bottom: 12px;
+            background: rgba(31, 41, 55, 0.75);
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .company-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #4ecca3;
+            color: #071019;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .company-btn:hover {
+            opacity: 0.9;
+        }
+
+        .company-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .company-back {
+            display: inline-block;
+            margin-top: 18px;
+            color: #4ecca3;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .company-back:hover {
+            text-decoration: underline;
+        }
+
+        #companyStatus {
+            margin-top: 14px;
+            font-size: 13px;
+            color: #4ecca3;
+        }
+
+        #companyResults {
+            width: 100%;
+            max-width: 900px;
+            margin: 30px auto 0;
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .company-result {
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(17, 24, 39, 0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .company-result h3 {
+            margin: 0 0 8px;
+            color: #4ecca3;
+        }
+
+        .company-result p {
+            margin: 6px 0;
+            font-size: 13px;
+        }
+
+        .company-match {
+            font-weight: 600;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">RESUMind AI</div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/scorer">ATS & Resume Scorer</a>
+            <a href="/skill-gap">Skill Gap</a>
+            <a href="/analyser">Skill Matching</a>
+            <a href="/all-jobs">Career Directory</a>
+            <a href="/company-approach">Company Approach</a>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <main class="company-approach-wrapper">
+
+        <div style="width:100%; max-width:900px;">
+
+            <div class="company-upload-box">
+                <h1>
+                    <span>Company </span><span>Approach</span>
+                </h1>
+
+                <form id="companyForm">
+                    <input
+                        type="file"
+                        id="resume"
+                        name="resume"
+                        class="company-file"
+                        accept=".pdf"
+                        required
+                    >
+
+                    <button type="submit" class="company-btn" id="companyBtn">
+                        Find Suitable Companies
+                    </button>
+                </form>
+
+                <div id="companyStatus"></div>
+
+                <a href="/" class="company-back">← Back to Home</a>
+            </div>
+
+            <div id="companyResults"></div>
+
+        </div>
+
+    </main>
+
+    <script>
+        document.getElementById("companyForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const fileInput = document.getElementById("resume");
+            const button = document.getElementById("companyBtn");
+            const status = document.getElementById("companyStatus");
+            const resultsBox = document.getElementById("companyResults");
+
+            if (!fileInput.files.length) {
+                status.textContent = "Please choose your resume PDF.";
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("resume", fileInput.files[0]);
+
+            button.disabled = true;
+            button.textContent = "Finding Companies...";
+            status.textContent = "Analyzing your resume...";
+            resultsBox.style.display = "none";
+            resultsBox.innerHTML = "";
+
+            try {
+                const response = await fetch("/analyze", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.status !== "success") {
+                    status.textContent = data.message || "Unable to analyze resume.";
+                    return;
+                }
+
+                const companies = data.companies || [];
+
+                if (!companies.length) {
+                    status.textContent =
+                        "No suitable companies found. Add more relevant skills to your resume.";
+                    return;
+                }
+
+                status.textContent = "Companies matched successfully.";
+
+                companies.forEach(company => {
+                    const card = document.createElement("div");
+                    card.className = "company-result";
+
+                    const roles = (company.roles || []).join(", ");
+                    const skills = (company.matched_skills || []).join(", ");
+
+                    card.innerHTML = `
+                        <h3>${company.company || "Company"}</h3>
+                        <p class="company-match">
+                            Match: ${company.match || company.match_percentage + "%"}
+                        </p>
+                        <p><strong>Suitable Roles:</strong> ${roles || "Not specified"}</p>
+                        <p><strong>Matched Skills:</strong> ${skills || "No direct skill match"}</p>
+                    `;
+
+                    resultsBox.appendChild(card);
+                });
+
+                resultsBox.style.display = "grid";
+
+            } catch (error) {
+                status.textContent = "Error connecting to the resume analyzer.";
+            } finally {
+                button.disabled = false;
+                button.textContent = "Find Suitable Companies";
+            }
+        });
+    </script>
+
+</body>
+</html>

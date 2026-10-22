@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Careers Directory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: #0b0f19; 
+            font-family: 'Poppins', sans-serif; 
+            color: white; 
+            padding: 40px;
+            margin: 0;
+        }
+        .header-title {
+            text-align: center;
+            color: #4ecca3;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .sub-header {
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); 
+            gap: 25px; 
+            max-width: 1350px;
+            margin: auto;
+        }
+        .card { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 15px; 
+            padding: 25px;
+            backdrop-filter: blur(15px); 
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .card:hover { 
+            transform: translateY(-5px); 
+            border-color: #4ecca3;
+            box-shadow: 0 10px 30px rgba(78, 204, 163, 0.15);
+        }
+        .card h3 { 
+            color: #4ecca3; 
+            margin-top: 0;
+            font-size: 1.35rem;
+            border-bottom: 1px solid rgba(78, 204, 163, 0.3);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card h3::after {
+            content: "▼";
+            font-size: 0.85rem;
+            color: #9ca3af;
+            transition: transform 0.3s ease;
+        }
+        .card.active h3::after {
+            transform: rotate(180deg);
+            color: #4ecca3;
+        }
+        .card p { 
+            font-size: 0.92rem; 
+            line-height: 1.5;
+            color: #bdc3c7;
+            margin: 10px 0;
+        }
+        .label {
+            color: #4ecca3;
+            font-weight: 600;
+        }
+        .sub-profiles {
+            display: none;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #4ecca3;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .sub-profiles h4 {
+            margin: 0 0 12px 0;
+            font-size: 0.95rem;
+            color: #ffffff;
+        }
+        .sub-job-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(78, 204, 163, 0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        .sub-job-name {
+            color: #4ecca3;
+            font-weight: 600;
+            display: block;
+        }
+        .sub-job-qual {
+            color: #d1d5db;
+            font-size: 0.8rem;
+        }
+        .click-hint {
+            font-size: 0.8rem;
+            color: #4ecca3;
+            font-style: italic;
+            margin-top: 10px;
+            text-align: right;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #4ecca3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-btn">← Back to Home</a>
+    <h1 class="header-title">Computer Careers Directory</h1>
+    <p class="sub-header">Explore computer-related career profiles, sub-jobs, and required qualifications.</p>
+    
+    <div class="grid-container">
+        {% set career_profiles = [
+            (
+                'Software Development & Programming',
+                'Designing, developing, testing, and maintaining software applications and computer programs.',
+                'B.Tech CSE / IT / BCA / MCA / Diploma + Programming Skills',
+                [
+                    ('Software Developer', 'B.Tech / BCA / MCA / Diploma + C, C++, Java or Python'),
+                    ('Frontend Developer', 'HTML, CSS, JavaScript + React or Angular'),
+                    ('Backend Developer', 'Java, Python, Node.js or PHP + Databases'),
+                    ('Full Stack Developer', 'Frontend + Backend + Database Skills'),
+                    ('Application Developer', 'Degree / Diploma + Application Development Skills')
+                ]
+            ),
+            (
+                'Web Development',
+                'Creating responsive websites, web applications, and online platforms.',
+                'BCA / B.Tech CSE/IT / MCA / Diploma + Web Development Skills',
+                [
+                    ('Web Developer', 'HTML, CSS, JavaScript + Backend Programming'),
+                    ('Frontend Developer', 'HTML, CSS, JavaScript, React / Angular'),
+                    ('Backend Web Developer', 'PHP / Python / Node.js + SQL'),
+                    ('WordPress Developer', 'WordPress + HTML, CSS, JavaScript and PHP'),
+                    ('Web Application Developer', 'Frontend + Backend + Database Development')
+                ]
+            ),
+            (
+                'Computer Hardware & Networking',
+                'Installing, maintaining, troubleshooting, and managing computer hardware and networks.',
+                'Diploma / B.Tech CSE/IT/ECE + Networking Certifications',
+                [
+                    ('Computer Hardware Engineer', 'Diploma / Degree + Hardware and Troubleshooting'),
+                    ('Network Engineer', 'B.Tech / BCA / B.Sc CS + Networking / CCNA'),
+                    ('Network Administrator', 'Degree / Diploma + LAN, WAN and TCP/IP'),
+                    ('System Administrator', 'Degree / Diploma + Windows/Linux Server Administration'),
+                    ('IT Support Engineer', 'Diploma / Degree + Hardware and Software Troubleshooting')
+                ]
+            ),
+            (
+                'Artificial Intelligence & Machine Learning',
+                'Developing intelligent systems that learn from data and automate complex tasks.',
+                'B.Tech CSE/AI/DS / BCA / MCA / M.Tech',
+                [
+                    ('AI Engineer', 'B.Tech / MCA + Python, Machine Learning and AI'),
+                    ('Machine Learning Engineer', 'B.Tech / M.Tech + Python, Scikit-Learn, TensorFlow or PyTorch'),
+                    ('Deep Learning Engineer', 'B.Tech / M.Tech + Neural Networks'),
+                    ('NLP Engineer', 'Python + Natural Language Processing and Machine Learning'),
+                    ('Computer Vision Engineer', 'Python + OpenCV + Deep Learning')
+                ]
+            ),
+            (
+                'Data Science & Data Analytics',
+                'Collecting, processing, analyzing, and visualizing data using computer technologies.',
+                'B.Tech / BCA / B.Sc CS/Statistics / MCA / M.Sc Data Science',
+                [
+                    ('Data Analyst', 'Degree + SQL, Excel, Python and Power BI/Tableau'),
+                    ('Data Scientist', 'B.Tech / MCA / M.Sc + Statistics, Python and ML'),
+                    ('Data Engineer', 'B.Tech / MCA + Python, SQL and Data Pipelines'),
+                    ('Business Intelligence Developer', 'B.Tech / BCA + SQL and Power BI'),
+                    ('Database Analyst', 'Degree + SQL and Database Management')
+                ]
+            ),
+            (
+                'Cyber Security',
+                'Protecting computers, networks, applications, and data from security threats.',
+                'B.Tech CSE/Cyber Security / BCA / MCA + Security Certifications',
+                [
+                    ('Cyber Security Analyst', 'Degree / Diploma + Networking, Linux and Security Tools'),
+                    ('SOC Analyst', 'B.Tech / BCA + SIEM and Threat Monitoring'),
+                    ('Ethical Hacker', 'Degree / Diploma + Ethical Hacking and Security'),
+                    ('Penetration Tester', 'Cyber Security Qualification + Web and Network Security'),
+                    ('Digital Forensics Analyst', 'Degree + Digital Forensics and Cyber Investigation')
+                ]
+            ),
+            (
+                'Cloud Computing & DevOps',
+                'Managing cloud infrastructure, software deployment, automation, and scalable computing systems.',
+                'B.Tech CSE/IT / MCA / BCA + Cloud Certifications',
+                [
+                    ('Cloud Engineer', 'B.Tech / MCA + AWS / Azure / Google Cloud'),
+                    ('Cloud Administrator', 'Degree + Cloud Infrastructure and Server Administration'),
+                    ('DevOps Engineer', 'B.Tech / MCA + Git, Docker, CI/CD and Cloud'),
+                    ('Site Reliability Engineer', 'Computer Degree + Linux, Cloud and Automation'),
+                    ('Cloud Support Engineer', 'Degree / Diploma + Cloud Services and Troubleshooting')
+                ]
+            ),
+            (
+                'Database & Software Systems',
+                'Managing databases, server-side systems, and computer software infrastructure.',
+                'B.Tech CSE/IT / BCA / MCA + Database Skills',
+                [
+                    ('Database Administrator', 'Degree + SQL, MySQL, PostgreSQL or Oracle'),
+                    ('SQL Developer', 'Degree / Diploma + SQL and Database Programming'),
+                    ('Database Engineer', 'B.Tech / MCA + Database Design and Optimization'),
+                    ('System Software Developer', 'B.Tech / MCA + C/C++/Java and Operating Systems'),
+                    ('Application Support Engineer', 'Degree / Diploma + Software Troubleshooting and Databases')
+                ]
+            ),
+            (
+                'Mobile App Development',
+                'Building applications for Android, iOS, and cross-platform mobile devices.',
+                'BCA / B.Tech CSE/IT / MCA / Diploma + Mobile Development',
+                [
+                    ('Android Developer', 'Java / Kotlin + Android Studio + Android SDK'),
+                    ('iOS Developer', 'Swift + Xcode + iOS Development'),
+                    ('Flutter Developer', 'Dart + Flutter Framework'),
+                    ('React Native Developer', 'JavaScript / TypeScript + React Native'),
+                    ('Mobile Application Tester', 'Mobile Testing + Android/iOS Knowledge')
+                ]
+            ),
+            (
+                'Game Development & Computer Graphics',
+                'Creating computer games, interactive applications, animations, and graphics.',
+                'B.Tech CSE/IT / BCA / MCA / Diploma + Programming Skills',
+                [
+                    ('Game Developer', 'C# / C++ + Unity or Unreal Engine'),
+                    ('Game Programmer', 'C++ / C# + Game Programming and Algorithms'),
+                    ('Game Designer', 'Game Design + Level Design and Interactive Media'),
+                    ('3D Graphics Developer', 'C++ / OpenGL / Graphics Programming'),
+                    ('Game Tester / QA Tester', 'Software Testing + Game Testing')
+                ]
+            ),
+            (
+                'IoT & Embedded Computing',
+                'Developing connected computer systems using microcontrollers, sensors, software, and networks.',
+                'Diploma / B.Tech CSE/ECE/IT + Programming Skills',
+                [
+                    ('IoT Developer', 'C/C++ / Python + Sensors, Microcontrollers and IoT'),
+                    ('Embedded Software Developer', 'C/C++ + Microcontrollers and Embedded Systems'),
+                    ('Robotics Software Developer', 'C++ / Python + Robotics and Automation'),
+                    ('Automation Engineer', 'Programming + Automation Tools and Control Systems'),
+                    ('Firmware Developer', 'C/C++ + Microcontrollers and Firmware Development')
+                ]
+            )
+        ] %}
+                
+        {% for main_title, desc, qual, sub_roles in career_profiles %}
+        <div class="card" onclick="toggleSubProfiles(this)">
+            <h3>{{ main_title }}</h3>
+            <p><span class="label">Overview:</span> {{ desc }}</p>
+            <p><span class="label">General Qualification:</span> {{ qual }}</p>
+            <div class="click-hint">Click to expand sub-jobs & qualifications ↴</div>
+
+            <div class="sub-profiles">
+                <h4>🎯 Sub-Jobs & Specific Qualifications:</h4>
+
+                {% for sub_name, sub_qual in sub_roles %}
+                    <div class="sub-job-item">
+                        <span class="sub-job-name">▸ {{ sub_name }}</span>
+                        <span class="sub-job-qual">Qualification: {{ sub_qual }}</span>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function toggleSubProfiles(cardElement) {
+            const subProfilesDiv = cardElement.querySelector('.sub-profiles');
+            
+            if (subProfilesDiv.style.display === "block") {
+                subProfilesDiv.style.display = "none";
+                cardElement.classList.remove('active');
+            } else {
+                subProfilesDiv.style.display = "block";
+                cardElement.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

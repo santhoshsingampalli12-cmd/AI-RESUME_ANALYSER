@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Approach | RESUMind AI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .company-approach-wrapper {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .company-upload-box {
+            width: 100%;
+            max-width: 435px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 14px;
+            background: rgba(8, 15, 25, 0.86);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.35);
+            text-align: center;
+        }
+
+        .company-upload-box h1 {
+            margin: 0 0 22px;
+            font-size: 24px;
+        }
+
+        .company-upload-box h1 span:first-child {
+            color: #ffffff;
+        }
+
+        .company-upload-box h1 span:last-child {
+            color: #4ecca3;
+        }
+
+        .company-file {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin-bottom: 12px;
+            background: rgba(31, 41, 55, 0.75);
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .company-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #4ecca3;
+            color: #071019;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .company-btn:hover {
+            opacity: 0.9;
+        }
+
+        .company-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .company-back {
+            display: inline-block;
+            margin-top: 18px;
+            color: #4ecca3;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .company-back:hover {
+            text-decoration: underline;
+        }
+
+        #companyStatus {
+            margin-top: 14px;
+            font-size: 13px;
+            color: #4ecca3;
+        }
+
+        #companyResults {
+            width: 100%;
+            max-width: 900px;
+            margin: 30px auto 0;
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .company-result {
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(17, 24, 39, 0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .company-result h3 {
+            margin: 0 0 8px;
+            color: #4ecca3;
+        }
+
+        .company-result p {
+            margin: 6px 0;
+            font-size: 13px;
+        }
+
+        .company-match {
+            font-weight: 600;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">RESUMind AI</div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/scorer">ATS & Resume Scorer</a>
+            <a href="/skill-gap">Skill Gap</a>
+            <a href="/analyser">Skill Matching</a>
+            <a href="/all-jobs">Career Directory</a>
+            <a href="/company-approach">Company Approach</a>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+
+    <main class="company-approach-wrapper">
+
+        <div style="width:100%; max-width:900px;">
+
+            <div class="company-upload-box">
+                <h1>
+                    <span>Company </span><span>Approach</span>
+                </h1>
+
+                <p style="font-size:13px;color:#cbd5e1;line-height:1.6;">
+                    Upload your resume to find matching companies and submit it for administrator review.
+                    The administrator can email you when you are selected or should prepare for an interview.
+                </p>
+
+                <form id="companyForm">
+                    <input type="text" id="applicant_name" name="applicant_name"
+                        class="company-file" placeholder="Full name" value="{{ default_name }}" required>
+                    <input type="email" id="email" name="email"
+                        class="company-file" placeholder="Email address for status updates" value="{{ default_email }}" required>
+                    <select id="company" name="company" class="company-file" required>
+                        <option value="">Choose the company you are applying to</option>
+                        {% for company_name in companies.keys() %}
+                        <option value="{{ company_name }}">{{ company_name }}</option>
+                        {% endfor %}
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="role" name="role" class="company-file"
+                        placeholder="Job role (e.g. Python Developer)" required>
+                    <input
+                        type="file"
+                        id="resume"
+                        name="resume"
+                        class="company-file"
+                        accept=".pdf"
+                        required
+                    >
+
+                    <button type="submit" class="company-btn" id="companyBtn">
+                        Submit Resume & Find Suitable Companies
+                    </button>
+                </form>
+
+                <div id="companyStatus"></div>
+
+                <a href="/" class="company-back">← Back to Home</a>
+            </div>
+
+            <div id="companyResults"></div>
+
+        </div>
+
+    </main>
+
+    <script>
+        document.getElementById("companyForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const form = this;
+            const fileInput = document.getElementById("resume");
+            const button = document.getElementById("companyBtn");
+            const status = document.getElementById("companyStatus");
+            const resultsBox = document.getElementById("companyResults");
+
+            if (!fileInput.files.length) {
+                status.textContent = "Please choose your resume PDF.";
+                return;
+            }
+
+            const formData = new FormData(form);
+            button.disabled = true;
+            button.textContent = "Submitting Resume...";
+            status.textContent = "Submitting your resume to the administrator...";
+            resultsBox.style.display = "none";
+            resultsBox.innerHTML = "";
+
+            try {
+                // First save an application for the administrator dashboard.
+                const submitResponse = await fetch("/company-approach/submit", {
+                    method: "POST",
+                    body: formData
+                });
+                const submitData = await submitResponse.json();
+                if (!submitResponse.ok || submitData.status !== "success") {
+                    status.textContent = submitData.message || "Unable to submit your resume.";
+                    return;
+                }
+
+                status.textContent = submitData.message + " Finding matching companies...";
+                button.textContent = "Finding Companies...";
+
+                // Run the existing Company Approach recommendation flow as well.
+                const analyzeForm = new FormData();
+                analyzeForm.append("resume", fileInput.files[0]);
+                const response = await fetch("/analyze", { method: "POST", body: analyzeForm });
+                const data = await response.json();
+                if (!response.ok || data.status !== "success") {
+                    status.textContent = submitData.message + " Company matching could not finish: " + (data.message || "Please try again.");
+                    return;
+                }
+
+                const companies = data.companies || [];
+                if (!companies.length) {
+                    status.textContent = submitData.message + " No suitable companies were matched. Your resume is still visible to the administrator.";
+                    return;
+                }
+
+                status.textContent = submitData.message + " Companies matched successfully.";
+                companies.forEach(company => {
+                    const card = document.createElement("div");
+                    card.className = "company-result";
+                    const title = document.createElement("h3");
+                    title.textContent = company.company || "Company";
+                    const match = document.createElement("p");
+                    match.className = "company-match";
+                    match.textContent = "Match: " + (company.match || ((company.match_percentage || 0) + "%"));
+                    const roles = document.createElement("p");
+                    roles.textContent = "Suitable Roles: " + ((company.roles || []).join(", ") || "Not specified");
+                    const skills = document.createElement("p");
+                    skills.textContent = "Matched Skills: " + ((company.matched_skills || []).join(", ") || "No direct skill match");
+                    card.append(title, match, roles, skills);
+                    resultsBox.appendChild(card);
+                });
+                resultsBox.style.display = "grid";
+            } catch (error) {
+                status.textContent = "Your resume may not have been submitted. Please check your connection and try again.";
+            } finally {
+                button.disabled = false;
+                button.textContent = "Submit Resume & Find Suitable Companies";
+            }
+        });
+    </script>
+
+</body>
+</html>

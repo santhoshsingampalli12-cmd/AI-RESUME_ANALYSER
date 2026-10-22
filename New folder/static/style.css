@@ -1,0 +1,585 @@
+/* Base Styling */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background-color: #0b0f19;
+    min-height: 200vh; /* Scroll height barrier penchanu */
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 🫧 Mouse Floating Bubbles Effect */
+.mouse-bubble {
+    position: absolute;
+    background: rgba(78, 204, 163, 0.6);
+    box-shadow: 0 0 8px rgba(78, 204, 163, 0.8);
+    border-radius: 50%;
+    pointer-events: none; /* Mouse interaction build avakunda block chesthundi */
+    transform: translate(-50%, -50%);
+    animation: fadeOutUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeOutUp {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -100px) scale(0.3); }
+}
+
+/* 🪐 Universe Floating Back Icons */
+.universe-icons span {
+    position: absolute;
+    font-size: 2.5rem;
+    opacity: 0.4;
+    z-index: 1;
+    animation: spaceFloat 20s linear infinite;
+}
+
+@keyframes spaceFloat {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(50px, 80px) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* 🔝 Fixed Top Bar Layout */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(12px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4ecca3;
+    letter-spacing: 1px;
+}
+
+.nav-links a {
+    color: #e5e7eb;
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #4ecca3;
+}
+
+/* 🖼️ Main Background Banner (Studying concept Image) */
+.hero-section {
+    height: 65vh;
+    background: linear-gradient(rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.9)), 
+                url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 80px;
+}
+
+.hero-content {
+    max-width: 800px;
+    z-index: 2;
+    padding: 20px;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sub-title {
+    font-size: 1.2rem;
+    color: #9ca3af;
+}
+
+/* 🎴 Cards Layout Section */
+.main-container {
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    font-weight: 600;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #4ecca3;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.card-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: rgba(31, 41, 55, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    width: 31%;
+    min-width: 280px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    backdrop-filter: blur(8px);
+}
+
+.card:hover {
+    transform: translateY(-12px);
+    border-color: #4ecca3;
+    box-shadow: 0 15px 35px rgba(78, 204, 163, 0.15);
+}
+
+.card-img-container {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card:hover .card-img-container img {
+    transform: scale(1.1);
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.card-body h2 {
+    font-size: 1.4rem;
+    margin-top: 0;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.card-body p {
+    color: #9ca3af;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* 📢 Notifications & Feedback Layout */
+.notification-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.notifications-box, .feedback-box {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 16px;
+    flex: 1;
+}
+
+.notifications-box h2, .feedback-box h2 {
+    font-size: 1.5rem;
+    margin-top: 0;
+    color: #4ecca3;
+    margin-bottom: 20px;
+}
+
+.job-marquee {
+    height: 120px;
+}
+
+.job-marquee p a {
+    color: #e5e7eb;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.job-marquee p a:hover {
+    color: #4ecca3;
+}
+
+.feedback-form textarea {
+    width: 100%;
+    height: 80px;
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-family: inherit;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.feedback-form button {
+    margin-top: 12px;
+    background: #4ecca3;
+    color: #0b0f19;
+    font-weight: 600;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.feedback-form button:hover {
+    background: #3db892;
+}
+
+/* 📝 About Section Layout */
+.about-section {
+    max-width: 1200px;
+    margin: 60px auto 100px;
+    padding: 0 40px;
+}
+
+.about-card {
+    background: linear-gradient(135deg, rgba(49, 104, 182, 0.4), rgba(17, 24, 39, 0.6));
+    border: 1px solid rgba(78, 204, 163, 0.2);
+    padding: 40px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.about-card h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: #4ecca3;
+}
+
+.about-card p {
+    color: #d1d5db;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #090d16;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+
+.signup-section {
+    text-align: center;
+    margin-top: 22px;
+}
+
+.signup-section p {
+    color: #aaa;
+    margin-bottom: 8px;
+}
+
+.signup-link {
+    color: #4ecca3;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+
+/* 🏢 Company Recommendations */
+.company-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 40px;
+}
+
+.company-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+}
+
+.company-card {
+    background: rgba(31, 41, 55, 0.55);
+    border: 1px solid rgba(78, 204, 163, 0.15);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.company-card:hover {
+    transform: translateY(-8px);
+    border-color: #4ecca3;
+    box-shadow: 0 12px 30px rgba(78, 204, 163, 0.12);
+}
+
+.company-logo {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(78, 204, 163, 0.12);
+    color: #4ecca3;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.company-card h3 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.company-match {
+    display: inline-block;
+    color: #4ecca3;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.company-card p {
+    color: #9ca3af;
+    line-height: 1.5;
+    margin: 7px 0;
+}
+
+.company-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 14px;
+}
+
+.company-skill {
+    background: rgba(78, 204, 163, 0.08);
+    border: 1px solid rgba(78, 204, 163, 0.16);
+    color: #d1fae5;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+}
+
+.admin-company-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.admin-company-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.admin-company-item strong {
+    color: #4ecca3;
+}
+
+@media (max-width: 768px) {
+    .navbar { padding: 15px 20px; }
+    .nav-links a { margin-left: 12px; }
+    .main-container, .company-section, .about-section { padding-left: 20px; padding-right: 20px; }
+    .notification-section { padding: 0 20px; flex-direction: column; }
+    .main-title { font-size: 2.4rem; }
+}
+
+
+/* 🏢 Company Approach Feature */
+.company-feature-card {
+    position: relative;
+}
+
+.company-feature-card .card-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 190px;
+}
+
+.feature-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: #4ecca3;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.company-feature-card:hover .feature-link {
+    text-decoration: underline;
+}
+
+/* 🏢 Company Approach Page */
+.company-approach-page {
+    min-height: 100vh;
+    padding: 120px 40px 70px;
+    background:
+        radial-gradient(circle at top right, rgba(78, 204, 163, 0.10), transparent 35%),
+        #0b0f19;
+}
+
+.company-approach-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.company-approach-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.company-approach-header h1 {
+    margin: 0 0 12px;
+    font-size: 2.8rem;
+    color: #ffffff;
+}
+
+.company-approach-header p {
+    max-width: 760px;
+    margin: 0 auto;
+    color: #9ca3af;
+    line-height: 1.7;
+}
+
+.company-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.company-item {
+    background: rgba(31, 41, 55, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.company-item:hover {
+    transform: translateY(-7px);
+    border-color: #4ecca3;
+    box-shadow: 0 14px 30px rgba(78, 204, 163, 0.12);
+}
+
+.company-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(78, 204, 163, 0.12);
+    border: 1px solid rgba(78, 204, 163, 0.25);
+    color: #4ecca3;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.company-item h2 {
+    margin: 0 0 10px;
+    color: #ffffff;
+    font-size: 1.35rem;
+}
+
+.company-item p {
+    margin: 7px 0;
+    color: #9ca3af;
+    line-height: 1.55;
+}
+
+.company-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 15px;
+}
+
+.company-tag {
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: rgba(78, 204, 163, 0.10);
+    border: 1px solid rgba(78, 204, 163, 0.18);
+    color: #d1fae5;
+    font-size: 0.78rem;
+}
+
+.company-back {
+    display: inline-block;
+    margin-top: 35px;
+    color: #4ecca3;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.company-back:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+    .company-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nav-links a {
+        margin-left: 12px;
+    }
+}
+
+@media (max-width: 650px) {
+    .company-list {
+        grid-template-columns: 1fr;
+    }
+
+    .company-approach-page {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .company-approach-header h1 {
+        font-size: 2.1rem;
+    }
+}

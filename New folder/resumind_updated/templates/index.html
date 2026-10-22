@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Analyzer & Scorer</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .logout-btn {
+            background: #e74c3c;
+            color: white !important;
+            padding: 6px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+
+        <div class="nav-brand">
+            RESUMind AI
+        </div>
+
+        <div class="nav-links">
+
+            <a href="#home">Home</a>
+
+            <a href="/scorer">
+                ATS & Resume Scorer
+            </a>
+
+            <a href="/skill-gap" >
+                Skill Gap & Suggestions
+            </a>
+
+            <a href="/analyser" >
+                Skill Matching
+            </a>
+
+            <a href="/all-jobs" >
+                Career Directory
+            </a>
+
+            <a href="/admin-login">Admin Login</a>
+            <a href="/company-approach">
+                Company Approach
+            </a>
+
+            <a href="/logout" class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+
+        <div class="hero-content">
+
+            <h1 class="main-title">
+                AI Resume Analyzer & Career Guidance
+            </h1>
+
+            <p class="sub-title">
+                Intelligent NLP-based ATS Scoring, Skill Gap Identification,
+                and Job Description Matching.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Main Features -->
+    <section class="main-container">
+
+        <div class="section-title">
+            Abstract Key Features
+        </div>
+
+        <div class="card-grid">
+
+
+            <!-- Feature 1 -->
+            <div class="card" onclick="window.location.href='/scorer'">
+
+                <div class="card-img-container">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=400&q=80"
+                        alt="ATS Scorer">
+
+                </div>
+
+                <div class="card-body">
+
+                    <h2>
+                        1. ATS Compatibility & Score
+                    </h2>
+
+                    <p>
+                        Calculates overall percentage score based on
+                        recruitment criteria and keyword analysis.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Feature 2 -->
+            <div class="card" onclick="window.location.href='/skill-gap'">
+
+                <div class="card-img-container">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80"
+                        alt="Skill Gap">
+
+                </div>
+
+                <div class="card-body">
+
+                    <h2>
+                        2. Skill Gap & Suggestions
+                    </h2>
+
+                    <p>
+                        Identifies missing industry skills and provides
+                        personalized formatting & content recommendations.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Feature 3 -->
+            <div class="card" onclick="window.location.href='/analyser'">
+
+                <div class="card-img-container">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80"
+                        alt="Resume Analyser">
+
+                </div>
+
+                <div class="card-body">
+
+                    <h2>
+                        3. Job Matching & Analyzer
+                    </h2>
+
+                    <p>
+                        Matches candidate skills against specific job roles
+                        using Natural Language Processing (NLP).
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Feature 4 -->
+           <div class="card" onclick="window.location.href='/all-jobs'">
+
+                <div class="card-img-container">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=400&q=80"
+                        alt="All Jobs">
+
+                </div>
+
+                <div class="card-body">
+
+                    <h2>
+                        4. Career Profiles
+                    </h2>
+
+                    <p>
+                        Explore qualifications and requirements across
+                        technical and core domains.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Feature 5 -->
+            <div class="card" onclick="window.location.href='/company-approach'">
+
+                <div class="card-img-container">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=400&q=80"
+                        alt="Company Approach">
+
+                </div>
+
+                <div class="card-body">
+
+                    <h2>
+                        5. Company Approach
+                    </h2>
+
+                    <p>
+                        Find matching companies and submit your resume for administrator review. The administrator can email selection or interview-preparation updates.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Feedback Section -->
+    <section class="main-container">
+
+        <div
+            class="feedback-box"
+            style="
+                background: rgba(17, 24, 39, 0.8);
+                padding: 25px;
+                border-radius: 12px;
+            "
+        >
+
+            <h2>
+                User Feedback System
+            </h2>
+
+
+            <form
+                id="feedbackForm"
+                class="feedback-form"
+            >
+
+                <textarea
+                    id="fbMessage"
+                    placeholder="Submit your experience or improvement notes..."
+                    required
+                    style="
+                        width: 100%;
+                        height: 80px;
+                        background: #000;
+                        color: white;
+                        padding: 10px;
+                    "
+                ></textarea>
+
+
+                <button
+                    type="submit"
+                    id="fbBtn"
+                    style="
+                        background: #4ecca3;
+                        padding: 10px 20px;
+                        border: none;
+                        margin-top: 10px;
+                        cursor: pointer;
+                    "
+                >
+                    Submit Feedback
+                </button>
+
+            </form>
+
+
+            <p
+                id="fbStatus"
+                style="
+                    margin-top: 15px;
+                    color: #4ecca3;
+                    font-weight: bold;
+                "
+            ></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Feedback JavaScript -->
+    <script>
+
+        document
+            .getElementById('feedbackForm')
+            .addEventListener('submit', async function(e) {
+
+                e.preventDefault();
+
+                const msg =
+                    document.getElementById('fbMessage').value;
+
+                const btn =
+                    document.getElementById('fbBtn');
+
+                const status =
+                    document.getElementById('fbStatus');
+
+
+                btn.innerText = "Submitting...";
+                btn.disabled = true;
+
+
+                try {
+
+                    const response =
+                        await fetch('/feedback', {
+
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body: JSON.stringify({
+                                message: msg
+                            })
+
+                        });
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (data.status === 'success') {
+
+                        status.innerText =
+                            "Feedback submitted successfully!";
+
+                        document
+                            .getElementById('fbMessage')
+                            .value = "";
+
+                    }
+
+                }
+                catch (error) {
+
+                    status.innerText =
+                        "Error submitting feedback.";
+
+                }
+                finally {
+
+                    btn.innerText =
+                        "Submit Feedback";
+
+                    btn.disabled = false;
+
+                }
+
+            });
+
+    </script>
+
+</body>
+</html>

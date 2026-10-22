@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Login | RESUMind AI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                radial-gradient(circle at top left, #123c35, transparent 40%),
+                linear-gradient(135deg, #020b09, #071613);
+
+            font-family: 'Poppins', sans-serif;
+            color: white;
+        }
+
+        .login-container {
+            width: 450px;
+            padding: 40px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(78, 204, 163, 0.35);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.4);
+
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            text-align: center;
+
+            color: #4ecca3;
+
+            font-size: 34px;
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+        .title {
+            text-align: center;
+
+            font-size: 20px;
+
+            margin-bottom: 30px;
+
+            color: #ddd;
+        }
+
+        label {
+            display: block;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 14px;
+
+            margin-bottom: 20px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #eef4ff;
+
+            color: #111;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .login-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #4ecca3;
+
+            color: #000;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #38b98f;
+
+            transform: translateY(-2px);
+        }
+
+        .error {
+            background: rgba(231, 76, 60, 0.15);
+
+            color: #ff7675;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            text-align: center;
+        }
+
+        .admin-section {
+            text-align: center;
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .admin-text {
+            color: #aaa;
+
+            font-size: 14px;
+
+            margin-bottom: 12px;
+        }
+
+        .admin-btn {
+            display: block;
+
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: #e74c3c;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .admin-btn:hover {
+            background: #c0392b;
+
+            transform: translateY(-2px);
+        }
+
+
+        .signup-section {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .signup-section p {
+            color: #aaa;
+            font-size: 14px;
+            margin: 0 0 8px 0;
+        }
+
+        .signup-link {
+            color: #4ecca3;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">
+            RESUMind AI
+        </div>
+
+        <div class="title">
+            User Login
+        </div>
+
+
+        {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+
+        <form method="POST">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Login as User
+            </button>
+
+        </form>
+
+
+        <!-- Admin Login -->
+        <div class="admin-section">
+
+            <div class="admin-text">
+                Are you an administrator?
+            </div>
+
+            <a
+                href="/admin-login"
+                class="admin-btn"
+            >
+                Login as Admin
+            </a>
+
+            <div class="signup-section">
+                <p>Don't have an account?</p>
+                <a href="{{ url_for('signup') }}" class="signup-link">
+                    Sign Up
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

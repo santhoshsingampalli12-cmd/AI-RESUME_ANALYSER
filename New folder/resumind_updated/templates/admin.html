@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard | RESUMind AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;padding:30px;background:#0b0f19;color:#f3f4f6;font-family:Poppins,sans-serif}
+h1,h2{color:#4ecca3}.card{background:#111827;border:1px solid #ffffff20;padding:20px;border-radius:12px;margin-bottom:22px}
+.metric{font-size:2rem;color:#4ecca3;font-weight:bold}ul{list-style:none;padding:0}li{background:#0004;padding:10px;margin-bottom:5px;border-radius:6px}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:900px}th,td{padding:12px;text-align:left;border-bottom:1px solid #ffffff20;vertical-align:top}th{color:#4ecca3}
+input,select,textarea{width:100%;padding:9px;border-radius:6px;border:1px solid #374151;background:#0b0f19;color:white;font:inherit;margin:4px 0}
+textarea{min-height:75px}button{padding:10px 14px;border:0;border-radius:6px;background:#4ecca3;color:#071019;font-weight:700;cursor:pointer}
+a{color:#4ecca3}.notice{padding:12px;background:#17372f;border-radius:8px;margin-bottom:15px;overflow-wrap:anywhere}.small{font-size:12px;color:#aab4c4}
+</style></head><body>
+<h1>Administrator Dashboard</h1>
+{% if notice %}<div class="notice">{{ notice }}</div>{% endif %}
+<div class="card"><h3>Total Resumes Analyzed</h3><p class="metric">{{ stats.total_scans }}</p></div>
+<div class="card"><h2>User Feedbacks</h2><ul>{% for fb in stats.feedbacks %}<li>{{ fb }}</li>{% else %}<li>No feedback submitted yet.</li>{% endfor %}</ul></div>
+<div class="card"><h2>Resume Applications & Email Status Updates</h2>
+<p class="small">Review submitted resumes, select a status, and send a personalized email. Configure SMTP environment variables to enable real email delivery.</p>
+<div class="table-wrap"><table><thead><tr><th>Applicant</th><th>Application</th><th>Resume</th><th>Current status</th><th>Update status and email</th></tr></thead><tbody>
+{% for app in applications %}
+<tr><td><strong>{{ app['applicant_name'] }}</strong><br>{{ app['email'] }}<br><span class="small">Submitted: {{ app['submitted_at'] }}</span></td>
+<td>{{ app['company'] }}<br>{{ app['role'] }}</td>
+<td><a href="{{ url_for('uploaded_file', filename=app['resume_filename']) }}" target="_blank" rel="noopener">View/download PDF</a></td>
+<td>{{ app['status'] }}{% if app['updated_at'] %}<br><span class="small">Updated: {{ app['updated_at'] }}</span>{% endif %}<br>{{ app['admin_message'] }}</td>
+<td><form method="POST" action="{{ url_for('update_application', application_id=app['id']) }}">
+<select name="status" required>{% for option in ['Submitted','Selected','Prepare for Interview','Not Selected'] %}<option value="{{ option }}" {% if app['status']==option %}selected{% endif %}>{{ option }}</option>{% endfor %}</select>
+<textarea name="message" placeholder="Optional custom message for the applicant"></textarea>
+<button type="submit">Save Status & Send Email</button></form></td></tr>
+{% else %}<tr><td colspan="5">No resume applications submitted yet.</td></tr>{% endfor %}
+</tbody></table></div></div>
+<p><a href="/">← Back to Home</a> &nbsp; | &nbsp; <a href="/logout">Logout</a></p>
+</body></html>

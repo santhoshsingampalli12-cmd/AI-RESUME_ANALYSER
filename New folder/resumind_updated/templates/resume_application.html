@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resume Application | RESUMind AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+body{background:#0b0f19;color:#fff;font-family:Poppins,sans-serif;margin:0;min-height:100vh}
+.wrap{max-width:720px;margin:115px auto 50px;padding:24px}
+.panel{background:#111827;border:1px solid rgba(78,204,163,.35);border-radius:16px;padding:28px;box-shadow:0 15px 40px #0005}
+h1{color:#4ecca3;margin-top:0}label{display:block;margin:14px 0 6px}
+input,select,textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #374151;border-radius:8px;background:#1f2937;color:#fff;font:inherit}
+button{margin-top:20px;width:100%;padding:13px;border:0;border-radius:8px;background:#4ecca3;color:#08121a;font-weight:700;cursor:pointer}
+.note{color:#aab4c4;font-size:13px}.success{color:#4ecca3}.error{color:#ff8d8d}.back{color:#4ecca3}
+</style></head>
+<body>
+<nav class="navbar"><div class="nav-brand">RESUMind AI</div><div class="nav-links">
+<a href="/">Home</a><a href="/company-approach">Company Approach</a><a href="/admin-login">Admin Login</a><a href="/logout" class="logout-btn">Logout</a>
+</div></nav>
+<main class="wrap"><div class="panel">
+<h1>Resume Application & Status</h1>
+<p>Upload your resume and choose the company and role you want to apply for. The administrator reviews applications and sends status updates by email.</p>
+{% if success %}<p class="success">{{ success }}</p>{% endif %}
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="POST" enctype="multipart/form-data">
+<label for="applicant_name">Full name</label><input id="applicant_name" name="applicant_name" value="{{ default_name }}" required>
+<label for="email">Email address (where updates will be sent)</label><input id="email" type="email" name="email" value="{{ default_email }}" required>
+<label for="company">Company</label><select id="company" name="company" required><option value="">Choose a company</option>{% for company in companies %}<option value="{{ company }}">{{ company }}</option>{% endfor %}<option value="Other">Other</option></select>
+<label for="role">Job role</label><input id="role" name="role" placeholder="e.g. Python Developer" required>
+<label for="resume">Resume (PDF only)</label><input id="resume" type="file" name="resume" accept=".pdf,application/pdf" required>
+<p class="note">Your application will appear in the admin dashboard. Email notifications require SMTP settings to be configured by the project administrator.</p>
+<button type="submit">Submit Application</button>
+</form><p><a class="back" href="/">← Back to Home</a></p>
+</div></main></body></html>
